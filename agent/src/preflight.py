@@ -71,6 +71,17 @@ def _check_llm_provider() -> CheckResult:
         f"proxy={proxy_label}"
     )
 
+    if provider.lower() == "chatgpt-plan":
+        from src.providers.chatgpt_plan_auth import status as plan_status, PlanAuthError
+
+        try:
+            ready = plan_status()["plan_enabled"]
+        except PlanAuthError:
+            ready = False
+        return CheckResult(name="LLM (chatgpt-plan)", status="ready" if ready else "not_configured",
+            message=f"{model} via ChatGPT plan" if ready else "ChatGPT plan permission is not configured",
+            impact="" if ready else "connect ChatGPT in Settings and allow plan usage", critical=not ready)
+
     if provider.lower() in {"openai-codex", "openai_codex"}:
         try:
             from src.providers.openai_codex import get_openai_codex_login_status

@@ -170,6 +170,15 @@ def _provider_readiness() -> Tuple[bool, str]:
         return False, "LLM model not configured"
 
     # OAuth-based providers carry no API key; a local login token stands in.
+    if provider.lower() == "chatgpt-plan":
+        from src.providers.chatgpt_plan_auth import status as plan_status, PlanAuthError
+
+        try:
+            ready = plan_status()["plan_enabled"]
+        except PlanAuthError:
+            ready = False
+        return ready, "ready" if ready else "ChatGPT plan permission not configured"
+
     if provider.lower() in {"openai-codex", "openai_codex"}:
         try:
             from src.providers.openai_codex import get_openai_codex_login_status

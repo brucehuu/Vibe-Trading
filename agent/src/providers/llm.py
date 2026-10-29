@@ -1358,7 +1358,7 @@ def _sync_provider_env() -> None:
         os.environ.pop("OPENAI_API_KEY", None)
         return
 
-    if provider in {"copilot", "github-copilot", "claude-cli"}:
+    if provider in {"copilot", "github-copilot", "claude-cli", "chatgpt-plan"}:
         os.environ.pop("OPENAI_API_BASE", None)
         os.environ.pop("OPENAI_BASE_URL", None)
         os.environ.pop("OPENAI_API_KEY", None)
@@ -1513,7 +1513,7 @@ def uses_responses_api(
     if configured_responses_api is not True:
         return False
     normalized_provider = provider.strip().lower().replace("_", "-")
-    if normalized_provider in {"anthropic", "openai-codex"}:
+    if normalized_provider in {"anthropic", "openai-codex", "chatgpt-plan"}:
         return False
     if normalized_provider != "deepseek":
         return True
@@ -1665,6 +1665,12 @@ def build_llm(*, model_name: Optional[str] = None, callbacks: Any = None) -> Any
     temperature = get_env_config().llm.langchain_temperature
     provider = get_env_config().llm.langchain_provider.lower()
     caps = get_provider_capabilities(provider, name)
+    if provider == "chatgpt-plan":
+        from src.providers.chatgpt_plan import ChatGPTPlanLLM
+
+        return ChatGPTPlanLLM(model=name, temperature=temperature,
+            timeout=get_env_config().llm.timeout_seconds,
+            reasoning_effort=get_env_config().llm.langchain_reasoning_effort.strip().lower() or None)
     if provider in {"openai-codex", "openai_codex"}:
         from src.providers.openai_codex import OpenAICodexLLM
 

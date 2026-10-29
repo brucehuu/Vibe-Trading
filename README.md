@@ -1086,6 +1086,7 @@ vibe-trading-mcp               # start MCP server (stdio)
 - **Docker** for Path A
 - OpenAI Codex can also be used with ChatGPT OAuth: set `LANGCHAIN_PROVIDER=openai-codex`, then run `vibe-trading provider login openai-codex`. This does not use `OPENAI_API_KEY`.
   In Web Settings, the Codex model picker discovers available models and reasoning levels from the authenticated ChatGPT session. If discovery is unavailable, the default model and manual model entry remain available.
+- This fork also provides **ChatGPT Plan (Plus / Pro)** in Web Settings. Connect an account, explicitly allow plan usage, load its available models, then save the provider. Identity-only sign-in does not enable inference. Credentials stay in this application's private runtime directory; the provider does not import another Codex application's login files.
 - GitHub Copilot can be used with an active Copilot subscription instead of a separately billed LLM API key. See [GitHub Copilot SDK provider](#github-copilot-sdk-provider).
 - A local Claude Code login can drive the agent without an API key. See [Claude Code CLI provider](#claude-code-cli-provider).
 

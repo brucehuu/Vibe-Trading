@@ -21,6 +21,7 @@ _PUBLIC_PROVIDERS = frozenset(
     {
         "anthropic",
         "claude-cli",
+        "chatgpt-plan",
         "dashscope",
         "deepseek",
         "gemini",

@@ -1156,7 +1156,18 @@
     "authentication": "Autentikasi",
     "apiKey": "API key",
     "tushareTokenDesc": "Digunakan untuk data A-share China, futures, fund, dan makro. Jika tidak diatur, proyek akan menggunakan AKShare sebagai fallback jika tersedia.",
-    "gildataTokenDesc": "Data Gildata opsional: harga harian saham A yang disesuaikan, harga mentah saham Hong Kong/indeks, NAB reksa dana di luar bursa, serta alat makroekonomi, pengumuman, dan riset Tiongkok."
+    "gildataTokenDesc": "Data Gildata opsional: harga harian saham A yang disesuaikan, harga mentah saham Hong Kong/indeks, NAB reksa dana di luar bursa, serta alat makroekonomi, pengumuman, dan riset Tiongkok.",
+    "chatgptPlanTitle": "ChatGPT plan connection",
+    "chatgptPlanHint": "Use your ChatGPT Plus / Pro plan. OpenAI sign-in and permission to use your plan are required. Tokens stay on this machine. Connecting does not activate this provider until you save.",
+    "chatgptPlanEnabled": "Connected · ChatGPT plan usage allowed",
+    "chatgptPlanDenied": "Signed in · ChatGPT plan usage was not authorized",
+    "chatgptPlanDisconnected": "ChatGPT is not connected",
+    "chatgptPlanConnection": "Saved connection",
+    "chatgptPlanPending": "Open the authorization page, finish sign-in, then return here. This attempt expires in 10 minutes.",
+    "chatgptPlanCancel": "Cancel sign-in",
+    "chatgptPlanAddAccount": "Add another account",
+    "chatgptPlanUsage": "Manage ChatGPT plan usage",
+    "chatgptPlanManaged": "Use the ChatGPT connection below; no API key required."
   },
   "qveris": {
     "title": "Marketplace Tool QVeris",

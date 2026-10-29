@@ -14,6 +14,7 @@ from src.providers.capabilities import (
 
 
 EXPECTED_PROVIDER_DEFAULTS = {
+    "chatgpt-plan": "gpt-6.1-sol",
     "openrouter": "deepseek/deepseek-v4-pro",
     "opencode": "deepseek-v4.1-flash",
     "kimi-coding": "kimi-for-coding",

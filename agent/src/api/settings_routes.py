@@ -416,6 +416,14 @@ async def _list_provider_models(
 ) -> LLMModelsResponse:
     """Best-effort live model discovery with a safe editable fallback."""
     fallback = [provider.default_model]
+    if provider.auth_type == "chatgpt_plan":
+        from src.providers.chatgpt_plan_auth import list_models, PlanAuthError
+
+        try:
+            models = await asyncio.to_thread(list_models)
+        except PlanAuthError as exc:
+            raise HTTPException(400, str(exc)) from exc
+        return LLMModelsResponse(provider=provider.name, models=models, source="provider")
     # Keep the direct MiniMax picker curated. Saved/custom model names remain
     # editable, and custom endpoints retain their own live model discovery.
     if provider.name == "minimax" and base_url.rstrip("/") in provider.base_url_options:
@@ -518,7 +526,11 @@ def _build_llm_settings_response(
     api_key = env_values.get(provider.api_key_env or "", "") if provider.api_key_env else ""
     api_key_configured = host._is_configured_secret(api_key, LLM_API_KEY_PLACEHOLDERS)
     api_key_hint = None
-    if provider.auth_type == "oauth":
+    if provider.auth_type == "chatgpt_plan":
+        from src.providers.chatgpt_plan_auth import status as plan_status
+
+        api_key_configured = plan_status()["plan_enabled"]
+    elif provider.auth_type == "oauth":
         try:
             from src.providers.openai_codex import get_openai_codex_login_status
 
@@ -707,7 +719,7 @@ def _sync_runtime_env(provider: LLMProviderOption, updates: Dict[str, str]) -> N
     if provider.auth_type == "credential_vault":
         reset_env_config()
         return
-    if provider.auth_type in {"gh_cli", "claude_cli"}:
+    if provider.auth_type in {"gh_cli", "claude_cli", "chatgpt_plan"}:
         # The Copilot SDK / Claude Code CLI own credential discovery and transport.
         os.environ.pop("OPENAI_API_KEY", None)
         os.environ.pop("OPENAI_API_BASE", None)
@@ -862,6 +874,13 @@ def register_settings_routes(
         base_url = (
             payload.base_url if payload.base_url is not None else provider.default_base_url
         ).strip()
+        if provider.auth_type == "chatgpt_plan":
+            from src.providers.chatgpt_plan_auth import status as plan_status
+
+            if base_url.rstrip("/") != "https://api.openai.com/v1":
+                raise HTTPException(400, "ChatGPT plan requests must use the official Responses API.")
+            if not plan_status()["plan_enabled"]:
+                raise HTTPException(400, "Connect ChatGPT and allow plan usage before activating this provider.")
         if provider.auth_type == "oauth":
             try:
                 from src.providers.openai_codex import validate_codex_base_url

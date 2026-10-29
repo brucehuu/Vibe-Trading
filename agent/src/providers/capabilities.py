@@ -321,6 +321,8 @@ def get_provider_capabilities(
         the explicit provider choice always wins.
     """
     normalized = (provider or "").strip().lower().replace("_", "-")
+    if normalized == "chatgpt-plan":
+        return ProviderCapabilities("chatgpt-plan", None, "CHATGPT_PLAN_BASE_URL")
     if normalized == "custom":
         return ProviderCapabilities("custom", None, "OPENAI_BASE_URL", capture_reasoning=True)
     if normalized == "minimax" and model == "MiniMax-M3.1-Flash":
@@ -411,6 +413,9 @@ def get_llm_credentials(
         consume the same endpoint.
     """
     normalized_provider = (provider or "").strip().lower().replace("_", "-")
+    if normalized_provider == "chatgpt-plan":
+        # Status/preflight must not import ambient API keys or refresh OAuth.
+        return {"provider": "chatgpt-plan", "api_key": "", "base_url": "https://api.openai.com/v1", "model": model or ""}
     if normalized_provider == "custom":
         from src.providers.custom_profiles import active_provider_credentials
 

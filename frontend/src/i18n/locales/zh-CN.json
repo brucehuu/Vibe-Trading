@@ -1150,7 +1150,18 @@
     "authentication": "身份验证",
     "apiKey": "API 密钥",
     "tushareTokenDesc": "用于中国 A 股、期货、基金和宏观数据。没填的话会自动改用 AKShare 的免费数据。",
-    "gildataTokenDesc": "可选的海量数据：A 股复权日线、港股及指数原始行情、场外基金净值，以及中国宏观、公告和研报工具。"
+    "gildataTokenDesc": "可选的海量数据：A 股复权日线、港股及指数原始行情、场外基金净值，以及中国宏观、公告和研报工具。",
+    "chatgptPlanTitle": "ChatGPT 套餐连接",
+    "chatgptPlanHint": "使用你的 ChatGPT Plus / Pro 套餐。请登录并允许使用套餐额度。凭据保存在本机，连接成功后仍需保存才能启用。",
+    "chatgptPlanEnabled": "已连接 · 已允许使用 ChatGPT 套餐",
+    "chatgptPlanDenied": "已登录 · 尚未授权使用 ChatGPT 套餐",
+    "chatgptPlanDisconnected": "尚未连接 ChatGPT",
+    "chatgptPlanConnection": "已保存的连接",
+    "chatgptPlanPending": "打开授权页面，完成登录后返回这里。本次授权将在 10 分钟后过期。",
+    "chatgptPlanCancel": "取消本次授权",
+    "chatgptPlanAddAccount": "添加其他账号",
+    "chatgptPlanUsage": "管理 ChatGPT 套餐用量",
+    "chatgptPlanManaged": "请在下方连接 ChatGPT，无需填写 API Key。"
   },
   "qveris": {
     "title": "QVeris 工具市场",

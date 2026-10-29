@@ -692,6 +692,14 @@ export const api = {
   retrySwarmRun: (id: string) =>
     request<{ id: string; status: string; preset_name: string }>(`/swarm/runs/${id}/retry`, { method: "POST" }),
   getLLMSettings: () => request<LLMSettings>("/settings/llm"),
+  getChatGPTPlanStatus: () => request<ChatGPTPlanStatus>("/settings/chatgpt-plan"),
+  startChatGPTPlanLogin: (newAccount = false) => request<{ authorization_url: string }>("/settings/chatgpt-plan/login", {
+    method: "POST", body: JSON.stringify({ new_account: newAccount }),
+  }),
+  cancelChatGPTPlanLogin: () => request<ChatGPTPlanStatus>("/settings/chatgpt-plan/cancel", { method: "POST" }),
+  selectChatGPTPlanProfile: (profileId: string) => request<ChatGPTPlanStatus>("/settings/chatgpt-plan/select", {
+    method: "POST", body: JSON.stringify({ profile_id: profileId }),
+  }),
   updateLLMSettings: (settings: UpdateLLMSettingsRequest) =>
     request<LLMSettings>("/settings/llm", {
       method: "PUT",
@@ -972,6 +980,15 @@ export interface SwarmRunSummary {
   created_at: string;
   task_count: number;
   completed_count: number;
+}
+
+export interface ChatGPTPlanStatus {
+  connected: boolean;
+  plan_enabled: boolean;
+  active_profile: string | null;
+  profiles: { id: string; label: string; plan_enabled: boolean }[];
+  pending: boolean;
+  error: string | null;
 }
 
 export interface LLMProviderOption {

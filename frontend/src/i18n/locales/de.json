@@ -1156,7 +1156,18 @@
     "authentication": "Authentifizierung",
     "apiKey": "API-Schlüssel",
     "tushareTokenDesc": "Verwendet für China-A-Aktien, Futures, Fonds und Makrodaten. Falls nicht gesetzt, greift das Projekt auf AKShare zurück, sofern verfügbar.",
-    "gildataTokenDesc": "Optionale Gildata-Daten: bereinigte Tageskurse chinesischer A-Aktien, unbereinigte Hongkong- und Indexkurse, Nettoinventarwerte nicht börsengehandelter Fonds sowie chinesische Makro-, Mitteilungs- und Research-Tools."
+    "gildataTokenDesc": "Optionale Gildata-Daten: bereinigte Tageskurse chinesischer A-Aktien, unbereinigte Hongkong- und Indexkurse, Nettoinventarwerte nicht börsengehandelter Fonds sowie chinesische Makro-, Mitteilungs- und Research-Tools.",
+    "chatgptPlanTitle": "ChatGPT plan connection",
+    "chatgptPlanHint": "Use your ChatGPT Plus / Pro plan. OpenAI sign-in and permission to use your plan are required. Tokens stay on this machine. Connecting does not activate this provider until you save.",
+    "chatgptPlanEnabled": "Connected · ChatGPT plan usage allowed",
+    "chatgptPlanDenied": "Signed in · ChatGPT plan usage was not authorized",
+    "chatgptPlanDisconnected": "ChatGPT is not connected",
+    "chatgptPlanConnection": "Saved connection",
+    "chatgptPlanPending": "Open the authorization page, finish sign-in, then return here. This attempt expires in 10 minutes.",
+    "chatgptPlanCancel": "Cancel sign-in",
+    "chatgptPlanAddAccount": "Add another account",
+    "chatgptPlanUsage": "Manage ChatGPT plan usage",
+    "chatgptPlanManaged": "Use the ChatGPT connection below; no API key required."
   },
   "qveris": {
     "title": "QVeris-Tool-Marktplatz",

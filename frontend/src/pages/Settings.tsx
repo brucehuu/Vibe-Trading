@@ -3,6 +3,7 @@ import { Database, KeyRound, Loader2, RefreshCw, RotateCcw, Save, Server, Slider
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { ChannelSettings } from "@/components/settings/ChannelSettings";
+import { ChatGPTPlanSettings } from "@/components/settings/ChatGPTPlanSettings";
 import { CustomProviderManager } from "@/components/settings/CustomProviderManager";
 import { ModelPicker } from "@/components/settings/ModelPicker";
 import { QVerisSettings } from "@/components/settings/QVerisSettings"; // QVERIS-INTEGRATION
@@ -59,6 +60,7 @@ export function Settings() {
   const [clearGildataToken, setClearGildataToken] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [planReady, setPlanReady] = useState(false);
   const [dataSaving, setDataSaving] = useState(false);
   const [settingsLoadError, setSettingsLoadError] = useState<string | null>(null);
 
@@ -126,6 +128,7 @@ export function Settings() {
       ...form,
       model_name: provider.default_model,
       base_url: provider.default_base_url,
+      ...(provider.name === "chatgpt-plan" ? { reasoning_effort: "" } : {}),
     });
     setModelOptions([provider.default_model]);
     setModelListHint(null);
@@ -142,6 +145,7 @@ export function Settings() {
       provider: provider.name,
       model_name: provider.default_model,
       base_url: provider.default_base_url,
+      ...(provider.name === "chatgpt-plan" ? { reasoning_effort: "" } : {}),
     });
     setApiKey("");
     setClearApiKey(false);
@@ -170,11 +174,15 @@ export function Settings() {
         refresh,
       });
       if (currentProviderRef.current !== requestedProvider) return;
-      setModelOptions(Array.from(new Set([
+      setModelOptions(requestedProvider === "chatgpt-plan" ? result.models : Array.from(new Set([
         form.model_name,
         selectedProvider.default_model,
         ...result.models,
       ].filter(Boolean))));
+      if (requestedProvider === "chatgpt-plan" && result.models.length && !result.models.includes(form.model_name)) {
+        setForm((current) => current?.provider === requestedProvider
+          ? { ...current, model_name: result.models[0] } : current);
+      }
       setEffortLevelsByModel(result.effort_levels ?? null);
       setModelLabels(result.model_labels ?? {});
       setDefaultEffortsByModel(result.default_effort_levels ?? {});
@@ -369,9 +377,11 @@ export function Settings() {
   const usesManagedAuth = Boolean(
     selectedProvider?.auth_type && selectedProvider.auth_type !== "api_key",
   );
-  const keyStatus = settings.api_key_configured
+  const keyStatus = form.provider === "chatgpt-plan"
+    ? t("settings.chatgptPlanManaged")
+    : settings.provider === form.provider && settings.api_key_configured
     ? t("settings.configured")
-    : settings.api_key_required
+    : selectedProvider?.api_key_required
       ? t("settings.keepCurrentKey")
       : usesManagedAuth && selectedProvider?.login_command
         ? t("settings.providerUsesManagedAuth", { command: selectedProvider.login_command })
@@ -522,6 +532,7 @@ export function Settings() {
                 ) : null}
               </div>
             </label>
+            {form.provider === "chatgpt-plan" && <ChatGPTPlanSettings onStatus={setPlanReady} />}
           </div>
         </section>
 
@@ -614,7 +625,7 @@ export function Settings() {
 
             <button
               type="submit"
-              disabled={saving}
+              disabled={saving || (form.provider === "chatgpt-plan" && !planReady)}
               className="inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}

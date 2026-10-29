@@ -54,6 +54,17 @@
     ]
   },
   {
+    "name": "chatgpt-plan",
+    "label": "ChatGPT Plan (Plus / Pro)",
+    "api_key_env": null,
+    "base_url_env": "CHATGPT_PLAN_BASE_URL",
+    "default_model": "gpt-6.1-sol",
+    "default_base_url": "https://api.openai.com/v1",
+    "api_key_required": false,
+    "auth_type": "chatgpt_plan",
+    "reasoning_efforts": ["none", "low", "medium", "high", "max"]
+  },
+  {
     "name": "deepseek",
     "label": "DeepSeek",
     "api_key_env": "DEEPSEEK_API_KEY",

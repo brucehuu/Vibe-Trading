@@ -1150,7 +1150,18 @@
     "authentication": "인증",
     "apiKey": "API 키",
     "tushareTokenDesc": "중국 A주·선물·펀드·거시 데이터에 사용됩니다. 설정하지 않으면 가능한 경우 AKShare로 대체됩니다.",
-    "gildataTokenDesc": "선택적 Gildata 데이터: A주 수정 일봉, 홍콩 주식·지수의 원시 시세, 장외 펀드 순자산가치, 중국 거시경제·공시·리서치 도구."
+    "gildataTokenDesc": "선택적 Gildata 데이터: A주 수정 일봉, 홍콩 주식·지수의 원시 시세, 장외 펀드 순자산가치, 중국 거시경제·공시·리서치 도구.",
+    "chatgptPlanTitle": "ChatGPT plan connection",
+    "chatgptPlanHint": "Use your ChatGPT Plus / Pro plan. OpenAI sign-in and permission to use your plan are required. Tokens stay on this machine. Connecting does not activate this provider until you save.",
+    "chatgptPlanEnabled": "Connected · ChatGPT plan usage allowed",
+    "chatgptPlanDenied": "Signed in · ChatGPT plan usage was not authorized",
+    "chatgptPlanDisconnected": "ChatGPT is not connected",
+    "chatgptPlanConnection": "Saved connection",
+    "chatgptPlanPending": "Open the authorization page, finish sign-in, then return here. This attempt expires in 10 minutes.",
+    "chatgptPlanCancel": "Cancel sign-in",
+    "chatgptPlanAddAccount": "Add another account",
+    "chatgptPlanUsage": "Manage ChatGPT plan usage",
+    "chatgptPlanManaged": "Use the ChatGPT connection below; no API key required."
   },
   "qveris": {
     "title": "QVeris 도구 마켓플레이스",

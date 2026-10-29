@@ -212,6 +212,8 @@ from src.api.system_routes import _terminate_current_process  # noqa: F401, E402
 # --- Settings ---
 from src.api.settings_routes import register_settings_routes  # noqa: E402
 register_settings_routes(app)
+from src.api.chatgpt_plan_routes import register_chatgpt_plan_routes  # noqa: E402
+register_chatgpt_plan_routes(app, require_local_or_auth, require_settings_write_auth)
 
 from src.api.settings_routes import (  # noqa: F401, E402
     _baostock_supported,

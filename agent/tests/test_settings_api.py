@@ -60,6 +60,25 @@ def test_get_llm_settings_is_side_effect_free_and_hides_placeholders(
     assert not (tmp_path / ".env").exists()
 
 
+def test_chatgpt_plan_requires_permission_before_activation(client, monkeypatch, tmp_path):
+    from src.providers import chatgpt_plan_auth
+
+    monkeypatch.setattr(chatgpt_plan_auth, "status", lambda: {"plan_enabled": False})
+    response = client.put("/settings/llm", json={"provider": "chatgpt-plan", "model_name": "test-model",
+        "base_url": "https://api.openai.com/v1"})
+    assert response.status_code == 400
+    assert not (tmp_path / ".env").exists()
+
+
+def test_chatgpt_plan_model_list_uses_account_catalog_without_inventing_defaults(client, monkeypatch):
+    from src.providers import chatgpt_plan_auth
+
+    monkeypatch.setattr(chatgpt_plan_auth, "list_models", lambda: ["account-model"])
+    response = client.post("/settings/llm/models", json={"provider": "chatgpt-plan"})
+    assert response.status_code == 200
+    assert response.json()["models"] == ["account-model"]
+
+
 def test_extract_model_ids_normalizes_openai_compatible_payloads() -> None:
     assert settings_routes._extract_model_ids(
         {"data": [{"id": "model-b"}, {"id": "model-a"}, {"id": "model-a"}]}
